@@ -8,19 +8,39 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+
 public class Order {
+    private static boolean Finding = false;
+
     public static String order(String words) {
         if (words.length()<1) return words;
         List<String> aList = Arrays.asList(words.split(" "));
-        char[] CHar = new char[]{'1','2','3','4','5','6','7','8','9'};
-        for (int i=0; i< aList.size();i++ ){
-            for (char ch : CHar){
-                if (aList.get(i).indexOf(ch) > 0) {
+        do {
+            for (int i = 0; i < aList.size(); i++) {
+                if (i==0)  Finding = false;
+                aList = FindChar(aList, i);
+            }
+            words = aList.toString();
+            words = String.join(" ", aList);
+        } while (Finding);
+        return words;
+    }
 
-                }
+    private static List FindChar(List<String> aList, int i) {
+        String words, temp;
+
+        for (int ch = 1; ch<=9; ch++){
+            if (i != ch-1){
+            temp =  aList.get(i);
+            int index = temp.indexOf(String.valueOf(ch) );
+            if (index != -1) {
+                aList.set(i, aList.get(ch-1)) ;
+                aList.set(ch-1, temp) ;
+                Finding = true;
+                break;
+            }
             }
         }
-
-        return words;
+        return aList;
     }
 }
